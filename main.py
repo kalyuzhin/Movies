@@ -1,4 +1,5 @@
 from parsers import *
+from notion import *
 
 
 def main() -> None:
@@ -10,7 +11,11 @@ def main() -> None:
         result = imdb_functions.parse_imdb_page(imdb_functions.create_imdb_url(name))
     else:
         print('Ошибка!')
-    print(result)
+        exit()
+    i = 1
+    for elem in result:
+        print(f'{i}.{elem} - {result[elem]}')
+        i += 1
 
 
 if __name__ == '__main__':

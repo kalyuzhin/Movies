@@ -2,7 +2,9 @@ import json
 
 import requests
 
-with open('../config.txt') as config:
+from parsers import *
+
+with open('config.txt') as config:
     TOKEN = config.readline().strip()
     MOVIE_PAGE = config.readline().strip()
 
@@ -10,7 +12,6 @@ HEADERS = {
     'Authorization': f'Bearer {TOKEN}',
     'Notion-Version': '2022-06-28',
     'Content-Type': 'application/json',
-
 }
 
 DATA = {
@@ -29,17 +30,48 @@ DATA = {
 
 BASE_URL = 'https://api.notion.com/v1'
 
-request = requests.get(BASE_URL + f"/blocks/{MOVIE_PAGE}/children", headers=HEADERS).json()
 
-while request['results'][0]['type'] != 'column':
-    request = requests.get(BASE_URL + f"/blocks/{request['results'][0]['id']}/children", headers=HEADERS).json()
+# request = requests.get(BASE_URL + f"/blocks/{MOVIE_PAGE}/children", headers=HEADERS).json()
+#
+# while request['results'][0]['type'] != 'column':
+#     request = requests.get(BASE_URL + f"/blocks/{request['results'][0]['id']}/children", headers=HEADERS).json()
+#
+# try:
+#     request = requests.patch(
+#         BASE_URL + f"/blocks/{request['results'][1]['id']}/children", headers=HEADERS, data=json.dumps(DATA))
+#     if request.status_code == 200:
+#         print('Done...')
+#     else:
+#         print(request.text)
+# except Exception as ex:
+#     print('Error!!!\n', ex)
 
-try:
-    request = requests.patch(
-        BASE_URL + f"/blocks/{request['results'][1]['id']}/children", headers=HEADERS, data=json.dumps(DATA))
-    if request.status_code == 200:
-        print('Done...')
-    else:
-        print(request.text)
-except Exception as ex:
-    print('Error!!!\n', ex)
+
+def already_watched() -> None:
+    try:
+        request = requests.get(BASE_URL + f"/blocks/{MOVIE_PAGE}/children", headers=HEADERS).json()
+        while request['results'][0]['type'] != 'column':
+            request = requests.get(BASE_URL + f"/blocks/{request['results'][0]['id']}/children", headers=HEADERS).json()
+        request = requests.patch(
+            BASE_URL + f"/blocks/{request['results'][1]['id']}/children", headers=HEADERS, data=json.dumps(DATA))
+        if request.status_code == 200:
+            print('Done...')
+        else:
+            print(request.text)
+    except Exception as ex:
+        print('Ошибка!!!\n', ex)
+
+
+def want_to_watch() -> None:
+    try:
+        request = requests.get(BASE_URL + f"/blocks/{MOVIE_PAGE}/children", headers=HEADERS).json()
+        while request['results'][0]['type'] != 'column':
+            request = requests.get(BASE_URL + f"/blocks/{request['results'][0]['id']}/children", headers=HEADERS).json()
+        request = requests.patch(
+            BASE_URL + f"/blocks/{request['results'][0]['id']}/children", headers=HEADERS, data=json.dumps(DATA))
+        if request.status_code == 200:
+            print('Done...')
+        else:
+            print(request.text)
+    except Exception as ex:
+        print('Ошибка!!!\n', ex)

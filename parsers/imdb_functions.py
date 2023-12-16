@@ -15,7 +15,7 @@ def create_imdb_url(name: str) -> str:
 def parse_imdb_page(url: str) -> dict:
     result = dict()
     request = requests.get(url, headers=USER_AGENT).text
-    soup = BeautifulSoup(request)
+    soup = BeautifulSoup(request, 'html.parser')
     for elem in soup.find_all('div', class_='ipc-metadata-list-summary-item__tc'):
         elem = elem.find_next('a', class_='ipc-metadata-list-summary-item__t')
         result[f'{elem.text} ({elem.find_next("span").text})'] = f"https://www.imdb.com/{elem.attrs['href']}"
