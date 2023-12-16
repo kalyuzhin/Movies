@@ -17,7 +17,7 @@ def parse_kinopoisk_page(url: str) -> dict:
         result[match.text] = f"https://www.kinopoisk.ru{match.find('a').attrs['data-url']}"
         for element in match.find_next('div', class_='search_results').find_all('div', class_='info'):
             result[element.find_next('p',
-                                     class_='name').text] = f"https://www.kinopoisk.ru{element.find_next('p', class_='name').find_next('a').attrs['data-url']}"
+                                     class_='name').text] = f"https://www.kinopoisk.ru{element.find_next('p', class_='name').find_next('a').attrs['data-url']}".strip()
     except Exception as ex:
         print("Error:\n", ex)
 
