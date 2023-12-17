@@ -14,7 +14,7 @@ def main() -> None:
         exit()
     i = 1
     for elem in result:
-        print(f'{i}.{elem} - {result[elem]}')
+        print(f'\t{i}.{elem} - {result[elem]}')
         i += 1
     print("Выберите нужный вам элемент(скопируйте и вставьте его название):\n")
     name = input()

@@ -4,9 +4,10 @@ import requests
 
 from parsers import *
 
-with open('config.txt') as config:
+with open('../config.txt') as config:
     TOKEN = config.readline().strip()
     MOVIE_PAGE = config.readline().strip()
+    MOVIE_DATABASE = config.readline().strip()
 
 HEADERS = {
     'Authorization': f'Bearer {TOKEN}',
@@ -91,3 +92,54 @@ def change_data(dic: dict, name: str) -> dict:
         ]
     }
     return data
+
+
+# request = requests.get(BASE_URL + f'/databases/{MOVIE_DATABASE}', headers=HEADERS)
+# with open('database.json', 'w') as file:
+#     json.dump(request.json(), file, indent=4)
+d = {
+    'a': 'b',
+    'c': 'd'
+}
+
+DATA = {
+    'parent': {
+        'type': 'database_id',
+        'database_id': f'{MOVIE_DATABASE}'
+    },
+    'properties': {
+        'Name': {
+            'type': 'title',
+            'title': [{'type': 'text', 'text': {'content': 'Американский психопат'}}]
+        },
+        'Type': {
+            'type': 'select',
+            'select': {
+                'id': 'DA;O'
+            }
+        },
+        'Status': {
+            'type': 'status',
+            'status': {
+                'id': '49efec20-eaec-4cf5-9c9f-0bc0bdaeb0d0'
+            }
+        },
+        'Rating': {
+            'type': 'select',
+            'select': {
+                'id': 's|EI'
+            }
+        },
+        'Link': {
+            'type': 'url',
+            'url': 'url'
+        }
+    }
+}
+
+# with open('data.json', 'w') as file:
+#     json.dump(DATA, file, indent=4)
+
+request = requests.post(BASE_URL + f'/pages', headers=HEADERS, data=json.dumps(DATA))
+
+print(request.text, request.status_code)
