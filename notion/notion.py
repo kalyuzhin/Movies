@@ -2,9 +2,7 @@ import json
 
 import requests
 
-from parsers import *
-
-with open('../config.txt') as config:
+with open('config.txt') as config:
     TOKEN = config.readline().strip()
     MOVIE_PAGE = config.readline().strip()
     MOVIE_DATABASE = config.readline().strip()
@@ -15,37 +13,7 @@ HEADERS = {
     'Content-Type': 'application/json',
 }
 
-# DATA = {
-#     'children': [
-#         {
-#             'object': 'block',
-#             'type': 'bookmark',
-#             'bookmark': {
-#                 'caption': [{"type": "text", "text": {"content": f"Американский психопат"}}],
-#                 'url': f'https://www.kinopoisk.ru/film/588'
-#
-#             }
-#         }
-#     ]
-# }
-
 BASE_URL = 'https://api.notion.com/v1'
-
-
-# request = requests.get(BASE_URL + f"/blocks/{MOVIE_PAGE}/children", headers=HEADERS).json()
-#
-# while request['results'][0]['type'] != 'column':
-#     request = requests.get(BASE_URL + f"/blocks/{request['results'][0]['id']}/children", headers=HEADERS).json()
-#
-# try:
-#     request = requests.patch(
-#         BASE_URL + f"/blocks/{request['results'][1]['id']}/children", headers=HEADERS, data=json.dumps(DATA))
-#     if request.status_code == 200:
-#         print('Done...')
-#     else:
-#         print(request.text)
-# except Exception as ex:
-#     print('Error!!!\n', ex)
 
 
 def already_watched(data: dict) -> None:
@@ -94,52 +62,70 @@ def change_data(dic: dict, name: str) -> dict:
     return data
 
 
-# request = requests.get(BASE_URL + f'/databases/{MOVIE_DATABASE}', headers=HEADERS)
-# with open('database.json', 'w') as file:
-#     json.dump(request.json(), file, indent=4)
-d = {
-    'a': 'b',
-    'c': 'd'
-}
+def change_database_data(options: list) -> dict:
+    if options[2] == 5:
+        rating = 's|EI'
+    elif options[2] == 4:
+        rating = 'OFcy'
+    elif options[2] == 3:
+        rating = 'jNqD'
+    elif options[2] == 2:
+        rating = 'tjOu'
+    elif options[2] == 1:
+        rating = 'C>li'
+    else:
+        rating = 'bNBl'
 
-DATA = {
-    'parent': {
-        'type': 'database_id',
-        'database_id': f'{MOVIE_DATABASE}'
-    },
-    'properties': {
-        'Name': {
-            'type': 'title',
-            'title': [{'type': 'text', 'text': {'content': 'Американский психопат'}}]
+    if options[1] == 'просмотрен':
+        status = '9a7f810e-5ab8-4e58-aee6-afbe13d842c1'
+    elif options[1] == 'хочу посмотреть':
+        status = '49efec20-eaec-4cf5-9c9f-0bc0bdaeb0d0'
+    else:
+        status = '5ac495c5-c50b-451a-893a-7d6ad5bf0777'
+    data = {
+        'parent': {
+            'type': 'database_id',
+            'database_id': f'{MOVIE_DATABASE}'
         },
-        'Type': {
-            'type': 'select',
-            'select': {
-                'id': 'DA;O'
+        'properties': {
+            'Name': {
+                'type': 'title',
+                'title': [{'type': 'text', 'text': {'content': f'{options[0][0][:-5:]}'}}]
+            },
+            'Type': {
+                'type': 'select',
+                'select': {
+                    'id': 'i`Sd'
+                }
+            },
+            'Status': {
+                'type': 'status',
+                'status': {
+                    'id': f'{status}'
+                }
+            },
+            'Rating': {
+                'type': 'select',
+                'select': {
+                    'id': f'{rating}'
+                }
+            },
+            'Link': {
+                'type': 'url',
+                'url': f'{options[0][1]}'
+            },
+            'Year': {
+                'type': 'number',
+                'number': int(options[0][0][-4::])
             }
-        },
-        'Status': {
-            'type': 'status',
-            'status': {
-                'id': '49efec20-eaec-4cf5-9c9f-0bc0bdaeb0d0'
-            }
-        },
-        'Rating': {
-            'type': 'select',
-            'select': {
-                'id': 's|EI'
-            }
-        },
-        'Link': {
-            'type': 'url',
-            'url': 'url'
         }
     }
-}
+    return data
 
-# with open('data.json', 'w') as file:
-#     json.dump(DATA, file, indent=4)
 
-request = requests.post(BASE_URL + f'/pages', headers=HEADERS, data=json.dumps(DATA))
-
-print(request.text, request.status_code)
+def add_to_database(data: dict) -> None:
+    request = requests.post(BASE_URL + f'/pages', headers=HEADERS, data=json.dumps(data))
+    if request.status_code == 200:
+        print('Успех')
+    else:
+        print("Error:\n", request.text)
