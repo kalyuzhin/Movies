@@ -11,7 +11,7 @@ def main() -> None:
         items = imdb_functions.parse_imdb_page(imdb_functions.create_imdb_url(name))
     else:
         print('Ошибка!')
-        exit()
+        return
     i = 1
     for elem in items:
         print(f'\t{i}.{elem} - {items[elem]}')

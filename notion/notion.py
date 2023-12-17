@@ -124,8 +124,14 @@ def change_database_data(options: list) -> dict:
 
 
 def add_to_database(data: dict) -> None:
-    request = requests.post(BASE_URL + f'/pages', headers=HEADERS, data=json.dumps(data))
-    if request.status_code == 200:
-        print('Успех')
+    request = requests.post(BASE_URL + f'/databases/{MOVIE_DATABASE}/query', headers=HEADERS).text.find(
+        data['properties']['Name']['title'][0]['text']['content'])
+    if request != -1:
+        print("Данный фильм уже есть в таблице")
+        return
     else:
-        print("Error:\n", request.text)
+        request = requests.post(BASE_URL + f'/pages', headers=HEADERS, data=json.dumps(data))
+        if request.status_code == 200:
+            print('Успех')
+        else:
+            print("Error:\n", request.text)
