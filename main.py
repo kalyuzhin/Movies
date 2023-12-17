@@ -26,7 +26,7 @@ def main() -> None:
         notion.add_to_database(notion.change_database_data([item, choice, 0]))
     elif choice == 'просмотрен':
         # notion.already_watched(notion.change_data(result, name))
-        rating = int(input("Как вы оцените этот фильм по пятибальной шкале?\n"))
+        rating = int(input("Как вы оцените этот фильм по десятибальной шкале?\n"))
         notion.add_to_database(notion.change_database_data([item, choice, rating]))
 
 

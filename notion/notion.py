@@ -73,6 +73,16 @@ def change_database_data(options: list) -> dict:
         rating = 'tjOu'
     elif options[2] == 1:
         rating = 'C>li'
+    elif options[2] == 6:
+        rating = '~@@]'
+    elif options[2] == 7:
+        rating = 'Ucal'
+    elif options[2] == 8:
+        rating = 'QDv_'
+    elif options[2] == 9:
+        rating = 'iWAE'
+    elif options[2] == 10:
+        rating = 'm~RH'
     else:
         rating = 'bNBl'
 
