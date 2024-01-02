@@ -86,6 +86,17 @@ def change_database_data(options: list) -> dict:
     else:
         rating = 'bNBl'
 
+    if options[3] == 1:
+        t = 'i`Sd'
+    elif options[3] == 2:
+        t = 'FyD='
+    elif options[3] == 3:
+        t = '=<{`'
+    elif options[3] == 4:
+        t = 'DA;O'
+    else:
+        t = 'i`Sd'
+
     if options[1] == 'просмотрен':
         status = '9a7f810e-5ab8-4e58-aee6-afbe13d842c1'
     elif options[1] == 'хочу посмотреть':
@@ -105,7 +116,7 @@ def change_database_data(options: list) -> dict:
             'Type': {
                 'type': 'select',
                 'select': {
-                    'id': 'i`Sd'
+                    'id': f'{t}'
                 }
             },
             'Status': {

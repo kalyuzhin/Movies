@@ -3,6 +3,7 @@ from notion import *
 
 
 def main() -> None:
+    item_type = int(input('Введите тип:\nФильм - 1\nСериал - 2\nМультфильм - 3\nАниме - 4\n'))
     name = input("Введите название фильма или сериала:\n")
     service = input("Введите, где хотите найти его(кинопоиск или imdb):\n")
     if service.strip().lower() == 'кинопоиск':
@@ -23,11 +24,11 @@ def main() -> None:
     choice = input().strip().lower()
     if choice == 'хочу посмотреть':
         # notion.want_to_watch(notion.change_data(result, name))
-        notion.add_to_database(notion.change_database_data([item, choice, 0]))
+        notion.add_to_database(notion.change_database_data([item, choice, 0, item_type]))
     elif choice == 'просмотрен':
         # notion.already_watched(notion.change_data(result, name))
         rating = int(input("Как вы оцените этот фильм по десятибальной шкале?\n"))
-        notion.add_to_database(notion.change_database_data([item, choice, rating]))
+        notion.add_to_database(notion.change_database_data([item, choice, rating, item_type]))
 
 
 if __name__ == '__main__':
