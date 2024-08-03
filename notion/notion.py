@@ -97,9 +97,9 @@ def change_database_data(options: list) -> dict:
     else:
         t = 'i`Sd'
 
-    if options[1] == 'просмотрен':
+    if options[1] == '2':
         status = '9a7f810e-5ab8-4e58-aee6-afbe13d842c1'
-    elif options[1] == 'хочу посмотреть':
+    elif options[1] == '1':
         status = '49efec20-eaec-4cf5-9c9f-0bc0bdaeb0d0'
     else:
         status = '5ac495c5-c50b-451a-893a-7d6ad5bf0777'
