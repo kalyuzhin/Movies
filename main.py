@@ -1,5 +1,6 @@
 from parsers import *
 from notion import *
+from obsidian import *
 
 
 def main() -> None:
@@ -27,11 +28,13 @@ def main() -> None:
         choice = input().strip().lower()
         if choice == '1':
             # notion.want_to_watch(notion.change_data(result, name))
-            notion.add_to_database(notion.change_database_data([item, choice, 0, item_type]))
+            # notion.add_to_database(notion.change_database_data([item, choice, 0, item_type]))
+            obsidian.add_movie([item, choice, 0, item_type])
         elif choice == '2':
             # notion.already_watched(notion.change_data(result, name))
             rating = int(input("Как вы оцените этот фильм по десятибальной шкале?\n"))
-            notion.add_to_database(notion.change_database_data([item, choice, rating, item_type]))
+            # notion.add_to_database(notion.change_database_data([item, choice, rating, item_type]))
+            obsidian.add_movie([item, choice, rating, item_type])
 
 
 if __name__ == '__main__':
