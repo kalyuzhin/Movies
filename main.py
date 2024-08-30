@@ -7,7 +7,7 @@ def main() -> None:
     while True:
         item_type = int(input('Введите тип:\nФильм - 1\nСериал - 2\nМультфильм - 3\nАниме - 4\n\nВыход - 0\n'))
         if not item_type:
-            break
+            exit(0)
         name = input("Введите название фильма или сериала:\n")
         service = input("Введите, где хотите найти его(кинопоиск или IMDB)\n1 - кинопоиск\n2 - IMDB\n")
         if service.strip().lower() == '1':
@@ -37,5 +37,13 @@ def main() -> None:
             obsidian.add_movie([item, choice, rating, item_type])
 
 
+def add_from_file(file_name: str) -> None:
+    with open(file_name, 'r', encoding='utf-8') as file:
+        for line in file:
+            add_from_csv(line)
+            print(line)
+
+
 if __name__ == '__main__':
     main()
+    # add_from_file('Movies 25f051b0d0174c4593f593809a34fc97.csv')
